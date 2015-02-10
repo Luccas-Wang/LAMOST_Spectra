@@ -1,0 +1,17 @@
+There were 11,061 stars in common provided by LAMOST which overlapped with APOGEE. These stars were provided as individual files with a flux, variance and wavelength array. 
+Of these 11,061 stars in common, a high fidelity sample of stars was selected to comprise the training set (note to Anna: This should be redone to better cover label space with some criteria on the
+number of stars as a function of the labels - e.g. so more stars at low metallicity).
+This criteria was that the signal to noise of the APOGEE spectra of these stars (1) be SNR > 400 (for high fidelity labels from APOGEE, assuming - labels are higher fidelity for the stars observed at
+higher SNR), (2) that the velocity scatter from
+APOGEE for these stars was < 1 km/s and (3) that the BAD STAR flag was not set (no flag set in ASPCAPFLAG)
+From this criteria 1722 stars were returned as training stars. The model was constructed from the LAMOST spectra of these stars, given APOGEE labels.  
+The remaining 9339 stars were used as test objects - to test how the labels output from The Cannon of the LAMOST spectra compared to the APOGEE labels for these stars, from APOGEE spectra. 
+
+For both test and training data, the stars were shifted back to the rest frame by using the redshift value provided in the header of each star by LAMOST, where 
+wavelength_shift = redshift*xdata_in 
+the data were then resampled on to a common, evenly spaced grid (but this should to be corrected - change spacing to evenly spaced in logarithm space not linear space) of 0.85 Angstroms (which is the spacing at the
+lower wavelength limit of the data). Upper and lower cuts were made to the data to span from 3900 to 8800 Angstroms. 
+This data, now radial velocity corrected and resampled on to a common grid, was then psuedo-continuum normalised using a running 90th percentile, as the first input to The Cannon in order to determine
+the continuum pixels for proper continuum normalisation. 
+All operations done to the flux were also performed on the variance arrays. 
+
